@@ -93,22 +93,18 @@ int Graph::maxFlow(int source, int sink)
 
 int Graph::energiaPerdida(int source, int sink) {
     int energiaGerada = 0;
-    int energiaConsumida = 0;
 
-    // Calcula a energia gerada pelos geradores (fluxo saindo da fonte fictícia)
+    // Itera sobre a lista de adjacência da fonte fictícia para identificar os geradores
     for (const auto& edge : adj[source]) {
-        energiaGerada += edge.flow;
-    }
+        int gerador = edge.to; // ID do gerador
 
-    // Calcula a energia consumida pelos consumidores (fluxo entrando no sumidouro fictício)
-    for (size_t i = 0; i < adj.size(); i++) {
-        for (const auto& edge : adj[i]) {
-            if (edge.to == sink) {
-                energiaConsumida += edge.flow;
-            }
+        // Itera sobre as arestas do gerador para calcular a capacidade total das conexões
+        for (const auto& conexao : adj[gerador]) {
+            energiaGerada += conexao.capacity;
         }
     }
 
     // Retorna a energia perdida
-    return energiaGerada - energiaConsumida;
+    return energiaGerada;
 }
+
