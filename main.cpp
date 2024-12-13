@@ -46,6 +46,9 @@ int main()
     int energia_nao_atendida = capacidade_total_gerador - fluxo_maximo;
     cout << energia_nao_atendida << endl;
     //cout <<graph.energiaPerdida(source) - fluxo_maximo << endl;
-    cout << graph.energiaPerdida(source, sink) << endl;
+    //cout << graph.energiaPerdida(source, sink) << endl;
+    //cout << graph.energiaPerdida(source, sink) << endl;
+    int energia_perdida = graph.energiaPerdida(source, sink); 
+    cout << energia_perdida - fluxo_maximo << endl;
     return 0;
 }
