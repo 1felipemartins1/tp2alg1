@@ -4,8 +4,34 @@
 #include <vector>
 #include <limits>
 #include <queue>
-
+#include <tuple>
 Graph::Graph(int V) : adj(V) {}
+
+
+
+
+std::vector<std::tuple<int, int, int>> Graph::conexoesCriticas(int source, int sink) {
+    std::vector<std::tuple<int, int, int>> criticas;
+
+    for (size_t u = 0; u < adj.size(); ++u) {
+        for (const auto& edge : adj[u]) {
+            // Verifica se a conexão está operando no limite
+            if (edge.flow == edge.capacity && edge.capacity > 0) {
+                // Ignorar conexões que terminam no sumidouro fictício (sink)
+                if (static_cast<int>(u) == source || edge.to == sink) {
+                    continue;
+                }
+                criticas.emplace_back(u, edge.to, edge.capacity);
+            }
+        }
+    }
+
+    return criticas;
+}
+
+
+
+
 
 void Graph::addEdge(int from, int to, int capacity)
 {
@@ -91,7 +117,7 @@ int Graph::maxFlow(int source, int sink)
     return maxFlow;
 }
 
-int Graph::energiaPerdida(int source, int sink) {
+int Graph::energiaPerdida(int source) {
     int energiaGerada = 0;
 
     // Itera sobre a lista de adjacência da fonte fictícia para identificar os geradores
@@ -107,4 +133,3 @@ int Graph::energiaPerdida(int source, int sink) {
     // Retorna a energia perdida
     return energiaGerada;
 }
-

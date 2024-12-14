@@ -1,4 +1,5 @@
 #include <iostream>
+#include <tuple>
 #include "network.hpp"
 
 using namespace std;
@@ -45,10 +46,21 @@ int main()
     cout << fluxo_maximo << endl;
     int energia_nao_atendida = capacidade_total_gerador - fluxo_maximo;
     cout << energia_nao_atendida << endl;
-    //cout <<graph.energiaPerdida(source) - fluxo_maximo << endl;
-    //cout << graph.energiaPerdida(source, sink) << endl;
-    //cout << graph.energiaPerdida(source, sink) << endl;
-    int energia_perdida = graph.energiaPerdida(source, sink); 
+    // cout <<graph.energiaPerdida(source) - fluxo_maximo << endl;
+    // cout << graph.energiaPerdida(source, sink) << endl;
+    // cout << graph.energiaPerdida(source, sink) << endl;
+    int energia_perdida = graph.energiaPerdida(source);
     cout << energia_perdida - fluxo_maximo << endl;
+
+    // Imprimir as conexões críticas
+    auto criticas = graph.conexoesCriticas(source, sink);
+    cout << criticas.size() << endl; // Número de conexões críticas
+    for (const auto &critica : criticas)
+    {
+        int u, v, capacity;
+        std::tie(u, v, capacity) = critica;                       // Descompacta a tupla
+        cout << u + 1 << " " << v + 1 << " " << capacity << endl; // IDs das conexões críticas
+    }
+
     return 0;
 }
